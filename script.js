@@ -239,4 +239,66 @@ function setupMusicPlayer() {
             musicToggle.textContent = config.music.startText;
         }
     });
-} 
+}
+
+// ===============================
+// 🎬 Video Surprise (Final Gift)
+// ===============================
+
+let bgMusicWasPlaying = false;
+
+function openVideoSurprise() {
+    const modal = document.getElementById("videoModal");
+    const video = document.getElementById("birthdayVideo");
+    const bgMusic = document.getElementById("bgMusic");
+
+    if (!modal || !video) return;
+
+    // Pause background music (optional but nice)
+    if (bgMusic) {
+        bgMusicWasPlaying = !bgMusic.paused;
+        if (bgMusicWasPlaying) bgMusic.pause();
+    }
+
+    modal.style.display = "flex";
+
+    // Try to play video (click gesture allows it)
+    video.currentTime = 0;
+    video.play().catch(() => {});
+}
+
+function closeVideoSurprise() {
+    const modal = document.getElementById("videoModal");
+    const video = document.getElementById("birthdayVideo");
+    const bgMusic = document.getElementById("bgMusic");
+
+    if (!modal || !video) return;
+
+    video.pause();
+    modal.style.display = "none";
+
+    // Resume background music if it was playing before
+    if (bgMusic && bgMusicWasPlaying) {
+        bgMusic.play().catch(() => {});
+        bgMusicWasPlaying = false;
+    }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    const openBtn = document.getElementById("openVideoBtn");
+    const closeBtn = document.getElementById("closeVideo");
+    const modal = document.getElementById("videoModal");
+
+    if (openBtn) openBtn.addEventListener("click", openVideoSurprise);
+    if (closeBtn) closeBtn.addEventListener("click", closeVideoSurprise);
+
+    // Click outside the video to close
+    if (modal) {
+        modal.addEventListener("click", (e) => {
+            if (e.target && e.target.id === "videoModal") {
+                closeVideoSurprise();
+            }
+        });
+    }
+});
+
