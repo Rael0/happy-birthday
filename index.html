@@ -3,70 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CUSTOMIZE: Browser tab title -->
-    <title>Happy Birthday! 💝</title>
+    <title>Happy Birthday! 🎂</title>
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <!-- Floating Background Elements -->
-    <div class="floating-elements">
-        <!-- Hearts and bears will be added here by JavaScript -->
-    </div>
 
-    <!-- Main Content Container -->
+<body>
+
+    <!-- Floating Background Elements -->
+    <div class="floating-elements"></div>
+
     <div class="container">
+
         <h1 id="valentineTitle"></h1>
-        
+
         <!-- Music Player -->
         <div id="musicControls" class="music-controls">
             <button id="musicToggle" class="music-btn">🎵 Play Music</button>
             <audio id="bgMusic" loop>
                 <source id="musicSource" type="audio/mpeg">
-                Your browser does not support the audio element.
             </audio>
         </div>
 
-        <!-- First Question -->
+        <!-- Question 1 -->
         <div class="question-section" id="question1">
             <h2 id="question1Text"></h2>
             <button class="cute-btn" onclick="moveButton(this)" id="yesBtn1"></button>
             <button class="cute-btn" onclick="moveButton(this)" id="noBtn1"></button>
-            <!-- CUSTOMIZE: Secret answer text -->
             <div class="secret-answer">
                 <button class="cute-btn special" onclick="showNextQuestion(2)" id="secretAnswerBtn"></button>
             </div>
         </div>
 
-        <!-- Second Question (Love Meter) -->
+        <!-- Question 2 -->
         <div class="question-section hidden" id="question2">
             <h2 id="question2Text"></h2>
-            <!-- Love meter settings: min="0" max="10000" -->
             <div class="love-meter">
                 <input type="range" min="0" max="10000" value="100" class="slider" id="loveMeter">
                 <p>
-                    <span class="love-value-container"><span id="startText"></span> (<span id="loveValue">100</span>%)</span>
+                    <span class="love-value-container">
+                        <span id="startText"></span>
+                        (<span id="loveValue">100</span>%)
+                    </span>
                     <span id="extraLove" class="hidden"></span>
                 </p>
             </div>
             <button class="cute-btn" onclick="showNextQuestion(3)" id="nextBtn"></button>
         </div>
 
-        <!-- Final Question -->
+        <!-- Question 3 -->
         <div class="question-section hidden" id="question3">
             <h2 id="question3Text"></h2>
             <button class="cute-btn final-yes" onclick="celebrate()" id="yesBtn3"></button>
             <button class="cute-btn" onclick="moveButton(this)" id="noBtn3"></button>
         </div>
 
-        <!-- CUSTOMIZE: Celebration message -->
+        <!-- Celebration -->
         <div class="celebration hidden" id="celebration">
             <h2 id="celebrationTitle"></h2>
             <p class="celebration-text" id="celebrationMessage"></p>
             <p class="celebration-text" id="celebrationEmojis"></p>
+
+            <!-- 🎁 Final Gift Button -->
+            <button class="cute-btn" id="openVideoBtn">🎁 Open the final gift</button>
         </div>
+
     </div>
 
     <!-- Scripts -->
@@ -74,16 +79,40 @@
     <script src="theme.js"></script>
     <script src="script.js"></script>
 
-    <!-- Video Surprise Modal -->
-<div id="videoModal" class="video-modal" style="display:none;">
-  <div class="video-modal-content">
-    <button id="closeVideo" class="video-close">✕</button>
-    <video id="birthdayVideo" controls playsinline preload="metadata">
-      <source src="YOUR_VIDEO_URL_HERE" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
-  </div>
-</div>
+    <!-- 🎬 Video Surprise Modal -->
+    <div id="videoModal" class="video-modal" style="display:none;">
+        <div class="video-modal-content">
+            <button id="closeVideo" class="video-close">✕</button>
+            <video id="birthdayVideo" controls playsinline preload="metadata">
+                <source src="https://res.cloudinary.com/dxuzv7lq4/video/upload/v1771108373/Screen_Recording_2026-02-14_at_23.30.59_o5wivs.mov" type="video/mp4" />
+            </video>
+        </div>
+    </div>
+
+    <!-- Video Script -->
+    <script>
+        function openVideoSurprise() {
+            const modal = document.getElementById("videoModal");
+            const video = document.getElementById("birthdayVideo");
+            modal.style.display = "flex";
+            video.currentTime = 0;
+            video.play().catch(()=>{});
+        }
+
+        function closeVideoSurprise() {
+            const modal = document.getElementById("videoModal");
+            const video = document.getElementById("birthdayVideo");
+            video.pause();
+            modal.style.display = "none";
+        }
+
+        document.getElementById("openVideoBtn")?.addEventListener("click", openVideoSurprise);
+        document.getElementById("closeVideo")?.addEventListener("click", closeVideoSurprise);
+
+        document.getElementById("videoModal")?.addEventListener("click", (e)=>{
+            if(e.target.id === "videoModal") closeVideoSurprise();
+        });
+    </script>
 
 </body>
-</html> 
+</html>
